@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ApiExampleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,3 +45,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::prefix('api-examples')->middleware(['auth'])->group(function () {
+    //Ejemplo de reques simple
+    Route::get('/get-users', [ApiExampleController::class, 'getUser'])->name('api-examples.get-users');
+});
