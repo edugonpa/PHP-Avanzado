@@ -74,6 +74,11 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        //Verificacion adicional
+        if(!auth()->user()->isAdmin()){
+            abort(403, 'No autorizado');
+        }
+
         $product->delete();
         return redirect()
             ->route('products.index')

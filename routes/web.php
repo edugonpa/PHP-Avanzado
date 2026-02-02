@@ -8,7 +8,30 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('products', ProductController::class)->middleware('auth');
+Route::middleware(['auth'])->group(function () {
+    // Listar - Todos los usuarios autenticados
+    Route::get('/products', [ProductController::class, 'index'])
+        ->name('products.index');
+    
+    // Crear - Todos los usuarios autenticados
+    Route::get('/products/create', [ProductController::class, 'create'])
+        ->name('products.create');
+    
+    Route::post('/products', [ProductController::class, 'store'])
+        ->name('products.store');
+    
+    // Editar - Todos los usuarios autenticados
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])
+        ->name('products.edit');
+    
+    Route::put('/products/{product}', [ProductController::class, 'update'])
+        ->name('products.update');
+    
+    // Eliminar - SOLO ADMIN
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])
+        ->middleware('role:admin')  // ← PROTECCIÓN ADICIONAL
+        ->name('products.destroy');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
