@@ -1,0 +1,4 @@
+php artisan make:test ProductoApiTest
+php artisan make:resource ProductoResource
+php artisan make:factory ProductFactory --model=Product
+php artisan test --filter ProductoApiTest
